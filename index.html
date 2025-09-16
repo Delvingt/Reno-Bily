@@ -6,9 +6,17 @@
     <title>Réno-Bily | Excellence en Rénovation</title>
     <style>
         * {
+            max-width: 100%;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
 
         :root {
@@ -70,7 +78,8 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 40px);
+            width: calc(100% - 20px);
+            max-width: min(1200px, calc(100vw - 20px));
             max-width: 1200px;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -434,7 +443,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: 2rem;
         }
 
@@ -508,7 +517,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: 2rem;
         }
 
@@ -606,7 +615,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: 2rem;
         }
 
@@ -932,6 +941,27 @@
             
             .carousel-nav-button {
                 display: none;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .services-grid,
+            .gallery,
+            .testimonials-container {
+                grid-template-columns: 1fr;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .contact-container {
+                padding: 2rem 1rem;
             }
         }
 
