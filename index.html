@@ -3,62 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réno-Bily | Rénovation & Travaux Généraux</title>
+    <title>Réno-Bily | Excellence en Rénovation</title>
     <style>
-        /* Performance optimization */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #3b82f6;
+            --accent: #06b6d4;
+            --dark: #1e293b;
+            --light: #ffffff;
+            --gray-light: #f8fafc;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(14, 165, 233, 0.2);
+            --shadow-color: rgba(14, 165, 233, 0.08);
+        }
+
         html {
             scroll-behavior: smooth;
         }
 
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #f59e0b;
-            --dark-color: #1e293b;
-            --light-color: #f8fafc;
-            --text-color: #475569;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
+            color: var(--dark);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+            min-height: 100vh;
         }
 
-        /* Improve text readability */
-        p {
-            margin-bottom: 1rem;
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            line-height: 1.2;
-            font-weight: 600;
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.03) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
         }
 
-        /* Navigation */
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(1deg); }
+            66% { transform: translate(20px, -10px) rotate(-1deg); }
+        }
+
+        /* Glassmorphism Navigation */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            border-radius: 20px;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(14, 165, 233, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -66,191 +97,354 @@
 
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: glow 3s ease-in-out infinite;
+            animation: gradient-shift 3s ease infinite;
+            letter-spacing: -1px;
         }
 
-        @keyframes glow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
+            align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--dark-color);
+            color: var(--dark);
             font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 0;
         }
 
-        .nav-links a::after {
+        nav.scrolled .nav-links a {
+            color: var(--dark);
+        }
+
+        .nav-links a::before {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--secondary-color);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::before {
             width: 100%;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 0.8rem 1.8rem !important;
+            border-radius: 50px;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
         }
 
         /* Hero Section */
         .hero {
-            margin-top: 70px;
-            min-height: 90vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff20" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,128C960,107,1056,117,1152,133.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat;
-            background-size: cover;
-            animation: wave 20s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-50%) translateY(0); }
+            position: relative;
+            padding: 120px 2rem 2rem;
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
         }
 
         .hero-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-            z-index: 1;
-            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            color: white;
-            margin-bottom: 1rem;
-            animation: slideInLeft 1s ease;
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 900;
+            animation: slideUp 0.8s ease;
         }
 
-        @keyframes slideInLeft {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateX(-50px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
+        .hero-text .subtitle {
+            font-size: 1.4rem;
+            color: #64748b;
             margin-bottom: 2rem;
-            animation: slideInLeft 1s ease 0.2s both;
+            animation: slideUp 0.8s ease 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin: 3rem 0;
+            animation: slideUp 0.8s ease 0.4s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            display: block;
+            text-shadow: none;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1rem;
-            animation: slideInLeft 1s ease 0.4s both;
+            gap: 1.5rem;
+            animation: slideUp 0.8s ease 0.6s both;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 60px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background: var(--secondary-color);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.5);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
+        .btn-glass {
             background: white;
-            color: var(--primary-color);
+            backdrop-filter: blur(10px);
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
 
-        /* Services Section */
+        .btn-glass:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Hero Image/Carousel Area UPDATED */
+        .hero-image {
+            position: relative;
+            animation: slideUp 1s ease 0.8s both;
+        }
+
+        .project-showcase {
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #f3f4f6;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Conteneur pour l'image */
+        .showcase-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.05), rgba(6, 182, 212, 0.05));
+            position: relative;
+        }
+
+
+        /* Alternative - Option 2: Cover (remplit tout l'espace) */
+        .showcase-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Remplit tout l'espace, peut découper */
+        }
+
+        /* Contrôles du carousel */
+        .showcase-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .control-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .control-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(14, 165, 233, 0.5);
+        }
+
+        .control-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Boutons de navigation carousel */
+        .carousel-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-nav-button:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav-button.prev {
+            left: 20px;
+        }
+
+        .carousel-nav-button.next {
+            right: 20px;
+        }
+
+        /* Options de mode d'affichage */
+        .display-options {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .option-btn:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .option-btn.active {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: rgba(14, 165, 233, 0.6);
+        }
+
+        /* Services Section with Glass Cards */
         .services {
             padding: 5rem 2rem;
-            background: var(--light-color);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            position: relative;
+            background: white;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            color: var(--dark-color);
-            margin-bottom: 3rem;
-            position: relative;
+            font-size: 3rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 900;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 4rem;
+            font-size: 1.2rem;
         }
 
         .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .service-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            background: var(--gray-light);
+            backdrop-filter: blur(20px);
+            border: 1px solid #e5e7eb;
+            padding: 2.5rem;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -260,58 +454,105 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.05), transparent);
+            transition: left 0.5s ease;
         }
 
         .service-card:hover::before {
-            transform: scaleX(1);
+            left: 100%;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) scale(1.02);
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
         }
 
         .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
         }
 
         .service-card h3 {
-            color: var(--dark-color);
-            margin-bottom: 1rem;
+            color: var(--dark);
             font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
-        /* Projects Gallery */
+        .service-card p {
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        /* Projects Gallery with Real Image Placeholders */
         .projects {
             padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
         }
 
         .gallery {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .project-card {
             position: relative;
-            height: 300px;
-            border-radius: 15px;
+            height: 400px;
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card:hover {
             transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(14, 165, 233, 0.25);
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.3), rgba(6, 182, 212, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+            
         }
 
         .project-overlay {
@@ -319,10 +560,10 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
             padding: 2rem;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card:hover .project-overlay {
@@ -331,164 +572,313 @@
 
         .project-overlay h3 {
             color: white;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
+            font-weight: 700;
         }
 
         .project-overlay p {
             color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Testimonials */
-        .testimonials {
-            padding: 5rem 2rem;
-            background: var(--light-color);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            font-size: 4rem;
-            color: var(--secondary-color);
-            opacity: 0.3;
-        }
-
-        .stars {
-            color: var(--secondary-color);
             margin-bottom: 1rem;
         }
 
-        .client-name {
-            font-weight: bold;
-            color: var(--dark-color);
-            margin-top: 1rem;
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        /* Contact */
-        .contact {
+        .tag {
+            background: rgba(14, 165, 233, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* Testimonials with Glass Effect */
+        .testimonials {
             padding: 5rem 2rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
-        .contact .section-title {
-            color: white;
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
-        .contact-content {
-            max-width: 800px;
-            margin: 3rem auto;
-            text-align: center;
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
-        .contact-info {
-            background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
         }
 
-        .contact-info h3 {
-            color: var(--dark-color);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.5;
+            line-height: 1;
         }
 
-        .contact-info p {
-            color: var(--text-color);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+        .testimonial-text {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 1rem 0 1.5rem;
             line-height: 1.8;
         }
 
-        .contact-details {
+        .testimonial-author {
             display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
             justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-role {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 4rem;
+            box-shadow: 0 30px 60px rgba(14, 165, 233, 0.15);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
+        }
+
+        .contact-info h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .contact-info p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.8;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: var(--dark-color);
-            font-size: 1.1rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.5rem;
-            color: var(--primary-color);
         }
 
-        .btn-email {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 2rem;
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--gray-light);
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            color: var(--dark);
+            font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
         }
 
-        .btn-email:hover {
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.1);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-submit:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.5);
         }
 
         /* Footer */
         footer {
-            background: var(--dark-color);
+            background: var(--dark);
             color: white;
+            padding: 3rem 2rem 2rem;
             text-align: center;
-            padding: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
         }
 
         .social-links {
-            margin-top: 1rem;
             display: flex;
             justify-content: center;
             gap: 1rem;
+            margin: 2rem 0;
         }
 
-        .social-links a {
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
             font-size: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
 
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: var(--secondary-color);
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
         }
 
-        /* Mobile Responsive */
+        /* Mobile Menu */
         .mobile-menu {
             display: none;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            color: var(--dark);
             cursor: pointer;
-            color: var(--dark-color);
+            padding: 0.5rem;
+        }
+
+        .mobile-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        nav.scrolled .mobile-menu span {
+            background: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -499,9 +889,13 @@
                 left: 0;
                 width: 100%;
                 background: white;
+                backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                padding: 2rem;
+                border-radius: 20px;
+                margin-top: 1rem;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             }
 
             .nav-links.active {
@@ -513,21 +907,50 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .cta-buttons {
-                flex-direction: column;
+            .services-grid,
+            .gallery {
+                grid-template-columns: 1fr;
             }
 
-            .contact-details {
-                flex-direction: column;
-                gap: 1rem;
+            .project-showcase {
+                height: 350px;
             }
+            
+            .carousel-nav-button {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-showcase {
+                height: 250px;
+            }
+            
+            .carousel-nav-button {
+                display: none;
+            }
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
@@ -537,20 +960,76 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#projets">Projets</a></li>
                 <li><a href="#temoignages">Témoignages</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="nav-cta">Contact</a></li>
             </ul>
-            <button class="mobile-menu" id="mobileMenu">☰</button>
+            <button class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="accueil">
         <div class="hero-content">
-            <h1>Transformez Votre Espace avec Réno-Bily</h1>
-            <p>Experts en rénovation et travaux généraux depuis plus de 15 ans</p>
-            <div class="cta-buttons">
-                <a href="#contact" class="btn btn-primary">Devis Gratuit</a>
-                <a href="#projets" class="btn btn-secondary">Voir Nos Projets</a>
+            <div class="hero-text">
+                <h1>Transformez Vos Rêves en Réalité</h1>
+                <p class="subtitle">Excellence en rénovation depuis plus de 15 ans. Nous donnons vie à vos projets avec passion et expertise.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Projets Réalisés</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Années d'Excellence</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Clients Satisfaits</span>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Devis Gratuit</span>
+                        <span>→</span>
+                    </a>
+                    <a href="#projets" class="btn btn-glass">
+                        <span>Nos Réalisations</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="project-showcase">
+                    <!-- Carousel de photos amélioré -->
+                    <div class="showcase-image" id="imageContainer">
+                        <img src="images/sdb_1.jpg" alt="Rénovation salle de bain" id="currentImage">
+                    </div>
+                    
+                    <!-- Boutons de navigation -->
+                    <button class="carousel-nav-button prev" onclick="previousImage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <button class="carousel-nav-button next" onclick="nextImage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Indicateurs -->
+                    <div class="showcase-controls" id="controls">
+                        <span class="control-dot active" onclick="goToImage(0)"></span>
+                        <span class="control-dot" onclick="goToImage(1)"></span>
+                        <span class="control-dot" onclick="goToImage(2)"></span>
+                        <span class="control-dot" onclick="goToImage(3)"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -558,37 +1037,38 @@
     <!-- Services Section -->
     <section class="services" id="services">
         <div class="container">
-            <h2 class="section-title">Nos Services</h2>
+            <h2 class="section-title reveal">Nos Services</h2>
+            <p class="section-subtitle reveal">Des solutions complètes pour tous vos besoins de rénovation</p>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🏠</div>
                     <h3>Rénovation Complète</h3>
-                    <p>Transformation totale de votre habitat, de la conception à la réalisation finale.</p>
+                    <p>Transformation totale de votre habitat, de la conception à la réalisation finale. Nous gérons chaque détail pour créer votre espace idéal.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🔨</div>
                     <h3>Maçonnerie</h3>
-                    <p>Travaux de gros œuvre, extensions, murs porteurs et fondations solides.</p>
+                    <p>Travaux de gros œuvre, extensions, murs porteurs et fondations solides. Construction durable et expertise technique garantie.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🎨</div>
                     <h3>Peinture & Décoration</h3>
-                    <p>Embellissement intérieur et extérieur avec des finitions impeccables.</p>
+                    <p>Embellissement intérieur et extérieur avec des finitions impeccables. Créez l'ambiance parfaite pour votre espace.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">⚡</div>
                     <h3>Électricité</h3>
-                    <p>Installation et mise aux normes électriques pour votre sécurité.</p>
+                    <p>Installation et mise aux normes électriques pour votre sécurité. Solutions modernes et économes en énergie.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🚿</div>
                     <h3>Plomberie</h3>
-                    <p>Installation sanitaire, réparations et création de salles de bain.</p>
+                    <p>Installation sanitaire, réparations et création de salles de bain. Expertise et solutions durables pour votre confort.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🪟</div>
                     <h3>Menuiserie</h3>
-                    <p>Portes, fenêtres, placards sur mesure et aménagements intérieurs.</p>
+                    <p>Portes, fenêtres, placards sur mesure et aménagements intérieurs. Créations uniques adaptées à vos besoins.</p>
                 </div>
             </div>
         </div>
@@ -597,42 +1077,102 @@
     <!-- Projects Gallery -->
     <section class="projects" id="projets">
         <div class="container">
-            <h2 class="section-title">Nos Réalisations</h2>
+            <h2 class="section-title reveal">Nos Réalisations</h2>
+            <p class="section-subtitle reveal">Découvrez nos projets récents et laissez-vous inspirer</p>
             <div class="gallery">
-                <div class="project-card">
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/douche.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Villa Moderne</h3>
-                        <p>Rénovation complète d'une villa de 200m²</p>
+                        <h3>Douche Italienne</h3>
+                        <p>Rénovation complète d'une douche</p>
+                        <div class="project-tags">
+                            <span class="tag">Architecture</span>
+                            <span class="tag">Design</span>
+                            <span class="tag">Luxe</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/escalier.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Appartement Haussmannien</h3>
+                        <h3>Réalisation d'Escalier Design</h3>
                         <p>Restauration avec respect du cachet ancien</p>
+                        <div class="project-tags">
+                            <span class="tag">Carrelage</span>
+                            <span class="tag">Restauration</span>
+                            <span class="tag">Élégance</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/portes.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Loft Industriel</h3>
-                        <p>Transformation d'un espace commercial en habitation</p>
+                        <h3>Portes et Chasis</h3>
+                        <p>Réalisation Elégante de vos Portes et Chasis</p>
+                        <div class="project-tags">
+                            <span class="tag">Moderne</span>
+                            <span class="tag">Bois</span>
+                            <span class="tag">PVC</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/peinture_2.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Maison de Campagne</h3>
-                        <p>Réhabilitation complète avec extension</p>
+                        <h3>Peinture Soigé</h3>
+                        <p>Rafraichissement Complet</p>
+                        <div class="project-tags">
+                            <span class="tag">Peinture</span>
+                            <span class="tag">Vitrification</span>
+                            <span class="tag">Ponçage</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/facade.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Bureau Moderne</h3>
-                        <p>Aménagement d'espaces de travail contemporains</p>
+                        <h3>Façade Hydrophuge</h3>
+                        <p>Résolution des problèmes d'humidité</p>
+                        <div class="project-tags">
+                            <span class="tag">Façade</span>
+                            <span class="tag">Hydrophugé</span>
+                            <span class="tag">Mortier</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
+                
+                <div class="project-card reveal">
+                    <!-- Emplacement pour photo réelle -->
+                    <div class="image-placeholder">
+                        <img class="project-image" src="images/parquet.jpg" alt="">
+                    </div>
                     <div class="project-overlay">
-                        <h3>Restaurant Gastronomique</h3>
-                        <p>Création d'une ambiance unique et fonctionnelle</p>
+                        <h3>Parquet Moderne</h3>
+                        <p>Création épuré</p>
+                        <div class="project-tags">
+                            <span class="tag">Moderne</span>
+                            <span class="tag">Parquet</span>
+                            <span class="tag">Bois</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -642,22 +1182,46 @@
     <!-- Testimonials -->
     <section class="testimonials" id="temoignages">
         <div class="container">
-            <h2 class="section-title">Ce Que Disent Nos Clients</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
+            <h2 class="section-title reveal">Témoignages Clients</h2>
+            <p class="section-subtitle reveal">La satisfaction de nos clients est notre plus grande réussite</p>
+            <div class="testimonials-container">
+                <div class="testimonial-card reveal">
+                    <div class="quote-icon">"</div>
                     <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>Équipe professionnelle et à l'écoute. Le résultat dépasse nos attentes. Notre maison a été complètement transformée!</p>
-                    <div class="client-name">- Marie Dubois</div>
+                    <p class="testimonial-text">Équipe professionnelle et à l'écoute. Le résultat dépasse nos attentes. Notre maison a été complètement transformée avec une attention exceptionnelle aux détails!</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MD</div>
+                        <div class="author-info">
+                            <div class="author-name">Marie Dubois</div>
+                            <div class="author-role">Propriétaire Villa</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
+                
+                <div class="testimonial-card reveal">
+                    <div class="quote-icon">"</div>
                     <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>Travail de qualité, délais respectés et budget maîtrisé. Je recommande vivement Réno-Bily pour tous vos projets.</p>
-                    <div class="client-name">- Jean Martin</div>
+                    <p class="testimonial-text">Travail de qualité, délais respectés et budget maîtrisé. Je recommande vivement Réno-Bily pour tous vos projets de rénovation.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JM</div>
+                        <div class="author-info">
+                            <div class="author-name">Jean Martin</div>
+                            <div class="author-role">CEO, Tech Company</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
+                
+                <div class="testimonial-card reveal">
+                    <div class="quote-icon">"</div>
                     <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p>Un accompagnement du début à la fin du projet. Des conseils précieux et une réalisation impeccable.</p>
-                    <div class="client-name">- Sophie Laurent</div>
+                    <p class="testimonial-text">Un accompagnement du début à la fin du projet. Des conseils précieux et une réalisation impeccable. Vraiment impressionnés!</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SL</div>
+                        <div class="author-info">
+                            <div class="author-name">Sophie Laurent</div>
+                            <div class="author-role">Architecte d'intérieur</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -666,32 +1230,54 @@
     <!-- Contact -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2 class="section-title">Contactez-Nous</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Demandez votre devis gratuit</h3>
-                    <p>
-                        Nous sommes à votre écoute pour tous vos projets de rénovation. 
-                        N'hésitez pas à nous contacter pour obtenir un devis personnalisé 
-                        et discuter de vos besoins spécifiques.
-                    </p>
-                    <div class="contact-details">
+            <h2 class="section-title reveal">Contactez-Nous</h2>
+            <p class="section-subtitle reveal">Commençons votre projet ensemble</p>
+            <div class="contact-container reveal">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Parlons de votre projet</h3>
+                        <p>Nous sommes à votre écoute pour transformer vos idées en réalité. Contactez-nous pour un devis gratuit et personnalisé.</p>
+                        
                         <div class="contact-item">
-                            <span class="contact-icon">📍</span>
-                            <span>Bruxelles, Belgique</span>
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <strong>Bruxelles, Belgique</strong><br>
+                                Zone d'intervention: Toute la Belgique
+                            </div>
                         </div>
+                        
                         <div class="contact-item">
-                            <span class="contact-icon">📞</span>
-                            <span>0465.34.73.56</span>
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>0465.34.73.56</strong><br>
+                                Lun-Ven: 8h-19h, Sam: 9h-17h
+                            </div>
                         </div>
+                        
                         <div class="contact-item">
-                            <span class="contact-icon">✉️</span>
-                            <span>bilytoska@gmail.com</span>
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <strong>bilytoska@gmail.com</strong><br>
+                                Réponse sous 24h
+                            </div>
                         </div>
                     </div>
-                    <a href="mailto:bilytoska@gmail.com?subject=Demande de devis - Réno-Bily" class="btn-email">
-                        Envoyer un Email
-                    </a>
+                    
+                    <div class="contact-form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Votre email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Téléphone">
+                        </div>
+                        <div class="form-group">
+                            <textarea rows="4" placeholder="Décrivez votre projet..." required></textarea>
+                        </div>
+                        <button class="btn-submit">Envoyer Message</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -699,17 +1285,105 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Réno-Bily. Tous droits réservés.</p>
-        <p>📍 Bruxelles, Belgique | 📞 0465.34.73.56 | ✉️ bilytoska@gmail.com</p>
-        <div class="social-links">
-            <a href="#">📘</a>
-            <a href="#">📷</a>
-            <a href="#">🔗</a>
+        <div class="footer-content">
+            <div class="footer-logo">Réno-Bily</div>
+            <p>Excellence en rénovation depuis 2010</p>
+            <div class="social-links">
+                <a href="#" class="social-link">f</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">in</a>
+                <a href="#" class="social-link">📧</a>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.8;">
+                © 2025 Réno-Bily. Tous droits réservés.<br>
+                📍 Bruxelles | 📞 0465.34.73.56 | ✉️ bilytoska@gmail.com
+            </p>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
+        // === CAROUSEL FUNCTIONALITY ===
+        // Images du carousel (remplacez par vos vraies images)
+        const images = [
+            'images/sdb_1.jpg',     // Image 1
+            'images/peinture_1.jpg',     // Image 2
+            'images/sdb_2.jpg',     // Image 3
+            'images/boiserie.jpg'      // Image 4
+        ];
+        
+        let currentIndex = 0;
+        
+        // Fonction pour changer d'image
+        function goToImage(index) {
+            currentIndex = index;
+            const img = document.getElementById('currentImage');
+            img.src = images[index];
+            
+            // Mise à jour des indicateurs
+            const dots = document.querySelectorAll('.control-dot');
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Navigation précédente
+        function previousImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            goToImage(currentIndex);
+        }
+        
+        // Navigation suivante
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            goToImage(currentIndex);
+        }
+        
+        
+        // Auto-rotation (optionnel)
+        let autoRotate = setInterval(() => {
+            nextImage();
+        }, 5000);
+        
+        // Pause auto-rotation au survol
+        const showcase = document.querySelector('.project-showcase');
+        showcase.addEventListener('mouseenter', () => {
+            clearInterval(autoRotate);
+        });
+        
+        showcase.addEventListener('mouseleave', () => {
+            autoRotate = setInterval(() => {
+                nextImage();
+            }, 5000);
+        });
+        
+        // Support du swipe sur mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        showcase.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        showcase.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextImage();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousImage();
+            }
+        }
+
+        // === EXISTING WEBSITE FUNCTIONALITY ===
+        // Mobile Menu
         const mobileMenu = document.getElementById('mobileMenu');
         const navLinks = document.getElementById('navLinks');
 
@@ -717,7 +1391,17 @@
             navLinks.classList.toggle('active');
         });
 
-        // Smooth Scrolling
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -727,43 +1411,70 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    // Close mobile menu if open
                     navLinks.classList.remove('active');
                 }
             });
         });
 
-        // Navbar Background on Scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function revealElements() {
+            reveals.forEach((element, index) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 50;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('active');
+                    }, index * 100);
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealElements);
+        revealElements();
+
+        // Form submission
+        document.querySelector('.btn-submit').addEventListener('click', (e) => {
+            e.preventDefault();
+            const inputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value) {
+                    isValid = false;
+                    input.style.borderColor = '#ef4444';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            if (isValid) {
+                // Collect form data
+                const formData = {
+                    name: inputs[0].value,
+                    email: inputs[1].value,
+                    phone: inputs[2].value,
+                    message: inputs[3].value
+                };
+                
+                // Create mailto link
+                const subject = 'Demande de devis - Réno-Bily';
+                const body = `Nom: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0ATéléphone: ${formData.phone}%0D%0AMessage: ${formData.message}`;
+                window.location.href = `mailto:bilytoska@gmail.com?subject=${subject}&body=${body}`;
+                
+                // Clear form
+                inputs.forEach(input => input.value = '');
             }
         });
 
-        // Intersection Observer for Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards
-        document.querySelectorAll('.service-card, .project-card, .testimonial-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.bg-animation');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
         });
     </script>
 </body>
